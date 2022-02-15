@@ -15,10 +15,10 @@ public:
   virtual CommandResponse run(const Arguments& args) = 0;
 };
 
-class Echo : public Command{
+class Echo : public Command {
 public:
   CommandResponse run(const Arguments& args) override;
 };
 
-}
-}
+}  // namespace command
+}  // namespace bash

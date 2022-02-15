@@ -15,8 +15,5 @@ TEST(Echo, runEcho) {
   }
 }
 
-}
-}
-
-
-
+}  // namespace command
+}  // namespace bash
