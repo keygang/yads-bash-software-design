@@ -10,7 +10,7 @@ TEST(Echo, runEcho) {
   Echo echo;
   {
     auto resp = echo.run({"hello", "world"});
-    EXPECT_EQ(resp.output, "helloworld");
+    EXPECT_EQ(resp.output, "hello world");
     EXPECT_EQ(resp.status_code, 0);
   }
 }

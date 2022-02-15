@@ -8,13 +8,13 @@ jobs:
         uses: actions/checkout@v2
       - name: Run clang-format
         run: |
-             ./scripts/format.sh > /dev/null
-             diff=$(git diff)
+          ./scripts/format.sh > /dev/null
+          diff=$(git diff)
 
-             if [[ ${diff} ]]; then
-               echo ${diff}
-               exit 1
-             fi
+          if [[ ${diff} ]]; then
+            echo ${diff}
+            exit 1
+          fi
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
   linux-tests:
