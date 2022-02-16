@@ -59,7 +59,13 @@ ParseCommandAndArguments::parse(const std::string& line) {
   if (commandStr == command::Echo().name()) {
     return {std::make_shared<command::Echo>(), std::move(args)};
   }
-  return {std::make_shared<command::Exit>(), {}};
+  if (commandStr == command::Cat().name()) {
+    return {std::make_shared<command::Cat>(), std::move(args)};
+  }
+  if (commandStr == command::Pwd().name()) {
+    return {std::make_shared<command::Pwd>(), std::move(args)};
+  }
+  return {nullptr, {}};
 }
 
 }  // namespace parsing
