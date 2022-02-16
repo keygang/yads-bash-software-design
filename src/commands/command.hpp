@@ -14,6 +14,7 @@ struct CommandResponse {
 
 class CommandInterface {
 public:
+  virtual ~CommandInterface() = default;
   virtual CommandResponse run(const Arguments& args) = 0;
   virtual std::string name() const = 0;
 };
