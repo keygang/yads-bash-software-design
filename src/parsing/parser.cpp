@@ -1,5 +1,12 @@
-//
-// Created by Stas Bokun on 15.02.22.
-//
-
 #include "parser.hpp"
+
+namespace bash {
+namespace parsing {
+
+std::tuple<command::Command, command::Arguments> bash::parsing::Parser::parse(
+    const std::string& line) {
+  return pca_.parse(line);
+}
+
+}  // namespace parsing
+}  // namespace bash
