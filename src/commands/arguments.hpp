@@ -1,9 +1,8 @@
 #pragma once
 
-#include <initializer_list>
+#include <execution>
 #include <string>
 #include <vector>
-#include <execution>
 
 namespace bash {
 
