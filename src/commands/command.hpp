@@ -1,8 +1,8 @@
 #pragma once
 
-#include "arguments.hpp"
-
 #include <memory>
+
+#include "arguments.hpp"
 
 namespace bash {
 namespace command {
@@ -24,7 +24,19 @@ public:
   std::string name() const override;
 };
 
+class Cat : public CommandInterface {
+public:
+  CommandResponse run(const Arguments& args) override;
+  std::string name() const override;
+};
+
 class Exit : public CommandInterface {
+public:
+  CommandResponse run(const Arguments& args) override;
+  std::string name() const override;
+};
+
+class Pwd : public CommandInterface {
 public:
   CommandResponse run(const Arguments& args) override;
   std::string name() const override;

@@ -11,6 +11,10 @@ namespace bash {
     std::string line;
     std::getline(std::cin, line);
     auto [command, args] = parser.parse(line);
+    if (command == nullptr) {
+      std::cerr << "Unknown command\n";
+      continue;
+    }
     auto resp = command->run(args);
     std::cout << resp.output << "\n";
   }
