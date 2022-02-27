@@ -13,13 +13,15 @@ TEST(Echo, runEcho) {
     EXPECT_EQ(resp.output, "hello world");
     EXPECT_EQ(resp.status_code, 0);
   }
+}
 
+TEST(Echo, runEchoNoArgs) {
+  Echo echo;
   {
-    auto resp = echo.run({"L l"});
-    EXPECT_EQ(resp.output, "L l");
+    auto resp = echo.run({});
+    EXPECT_EQ(resp.output, "");
     EXPECT_EQ(resp.status_code, 0);
   }
-
 }
 
 }  // namespace command

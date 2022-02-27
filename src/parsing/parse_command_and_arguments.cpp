@@ -23,10 +23,22 @@ void removeEmptyArgs(command::Arguments& args) {
 
 std::tuple<command::Command, command::Arguments>
 ParseCommandAndArguments::parse(const std::string& line) {
-
+//  auto end_command_pos = line.find(" ");
+//  if (end_command_pos == std::string::npos) {
+//    end_command_pos = line.size();
+//  }
+//  auto commandStr = line.substr(0, end_command_pos);
+  std::string commandStr;
   command::Arguments args;
   std::string currArg;
   for (size_t i = 0; i < line.size(); ++i) {
+
+    if (line[i] == ' ' && commandStr.empty() && !currArg.empty()) {
+      commandStr = currArg;
+      currArg = "";
+      continue;
+    }
+
     if (line[i] == ' ') {
       args.push_back(currArg);
       currArg = "";
@@ -48,11 +60,11 @@ ParseCommandAndArguments::parse(const std::string& line) {
   args.push_back(currArg);
   removeEmptyArgs(args);
 
-  std::string commandStr;
-
-  if (!args.empty()) {
-    commandStr = args[0];
-  }
+//  std::string commandStr;
+//
+//  if (!args.empty()) {
+//    commandStr = args[0];
+//  }
 
   if (commandStr == command::Exit().name()) {
     return {std::make_shared<command::Exit>(), {}};
