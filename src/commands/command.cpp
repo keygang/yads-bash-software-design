@@ -28,34 +28,34 @@ std::string Cat::name() const { return "cat"; }
 
 CommandResponse Cat::run(const Arguments& args) {
   std::string tot_data;
-  bool any_open = false;
+  int any_open = 1;
   for (const auto& arg : args) {
     auto [is_open, data] = utils::read_file(arg);
     if (is_open) {
-      any_open = true;
+      any_open = 0;
       if (!tot_data.empty()) {
         tot_data += "\n";
       }
        tot_data += data;
     }
   }
-  return {tot_data, 0};
+  return {tot_data, any_open};
 }
 
 CommandResponse Wc::run(const Arguments& args) {
   std::string tot_data;
-  bool any_open = false;
+  int any_open = 1;
   for (const auto& arg : args) {
     auto [is_open, data] = utils::count_file(arg);
     if (is_open) {
-      any_open = true;
+      any_open = 0;
       if (!tot_data.empty()) {
         tot_data += "\n";
       }
       tot_data += data;
     }
   }
-  return {tot_data, 0};
+  return {tot_data, any_open};
 }
 
 std::string Wc::name() const { return "wc"; }

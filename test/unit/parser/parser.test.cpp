@@ -16,6 +16,33 @@ TEST(Parser, runParserWrongCommand) {
   }
 }
 
+TEST(Parser, runParserZeroCommand) {
+  Parser parser;
+  {
+    std::string str = "";
+    auto [command, args]= parser.parse(str);
+    EXPECT_EQ(command, nullptr);
+  }
+}
+
+TEST(Parser, runParserZeroArgs) {
+  Parser parser;
+  {
+    std::string str = "echo ";
+    auto [command, args] = parser.parse(str);
+    EXPECT_EQ(command->name(), "echo");
+    command::Arguments right = {};
+    EXPECT_EQ(args, right);
+  }
+  {
+    std::string str = "echo \"\"";
+    auto [command, args] = parser.parse(str);
+    EXPECT_EQ(command->name(), "echo");
+    command::Arguments right = {};
+    EXPECT_EQ(args, right);
+  }
+}
+
 TEST(Parser, runParserRightCommandInQuotes) {
   Parser parser;
   {
@@ -38,5 +65,16 @@ TEST(Parser, runParserRightCommandNoQuotes) {
   }
 }
 
-}  // namespace command
+TEST(Parser, runParserArgsQuotes) {
+  Parser parser;
+  {
+    std::string str = R"(wc "test_file1" "test file2")";
+    auto [command, args]= parser.parse(str);
+    EXPECT_EQ(command->name(), "wc");
+    command::Arguments right = {"test_file1", "test file2"};
+    EXPECT_EQ(args, right);
+  }
+}
+
+}  // namespace parsing
 }  // namespace bash

@@ -31,7 +31,8 @@ TEST(Cat, runCatMultipleArgs) {
   {
     auto resp = cat.run({"/home/alina/PPO/yads-bash-software-design/cmake-build-debug_clang/src/test file2",
                          "/home/alina/PPO/yads-bash-software-design/cmake-build-debug_clang/src/test_file1"});
-    EXPECT_EQ(resp.output, "Space in name");
+    EXPECT_EQ(resp.output, "Space in name\nHello my fiend\n"
+              "Hello my fiend 2");
     EXPECT_EQ(resp.status_code, 0);
   }
 }
@@ -41,7 +42,7 @@ TEST(Cat, runCatNoArgs) {
   {
     auto resp = cat.run({});
     EXPECT_EQ(resp.output, "");
-    EXPECT_EQ(resp.status_code, 0);
+    EXPECT_EQ(resp.status_code, 1);
   }
 }
 
