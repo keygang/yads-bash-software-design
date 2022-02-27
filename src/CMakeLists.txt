@@ -10,5 +10,6 @@ set(SOURCES
         ${PROJECT_SOURCE_DIR}/src/utils/utils.hpp)
 
 add_library(bash-lib STATIC ${SOURCES})
+target_link_libraries(bash-lib PUBLIC ${CXX_FILESYSTEM_LIBRARIES})
 add_executable(bash ${PROJECT_SOURCE_DIR}/src/main.cpp)
 target_link_libraries(bash PUBLIC bash-lib)

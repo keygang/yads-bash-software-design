@@ -1,6 +1,6 @@
 #include "command.hpp"
 
-#include <filesystem>
+#include <experimental/filesystem>
 #include <iostream>
 #include <numeric>
 #include <tuple>
@@ -27,17 +27,42 @@ std::string Exit::name() const { return "exit"; }
 std::string Cat::name() const { return "cat"; }
 
 CommandResponse Cat::run(const Arguments& args) {
-  if (args.size() != 1) {
-    // TODO:
-    return {"", 0};
+  std::string tot_data;
+  bool any_open = false;
+  for (const auto& arg : args) {
+    auto [is_open, data] = utils::read_file(arg);
+    if (is_open) {
+      any_open = true;
+      if (!tot_data.empty()) {
+        tot_data += "\n";
+      }
+       tot_data += data;
+    }
   }
-  auto [is_open, data] = utils::read_file(args[0]);
-  return {data, is_open ? 1 : 0};
+  return {tot_data, 0};
 }
+
+CommandResponse Wc::run(const Arguments& args) {
+  std::string tot_data;
+  bool any_open = false;
+  for (const auto& arg : args) {
+    auto [is_open, data] = utils::count_file(arg);
+    if (is_open) {
+      any_open = true;
+      if (!tot_data.empty()) {
+        tot_data += "\n";
+      }
+      tot_data += data;
+    }
+  }
+  return {tot_data, 0};
+}
+
+std::string Wc::name() const { return "wc"; }
 
 CommandResponse Pwd::run(const Arguments& args) {
   std::ignore = args;
-  return {std::filesystem::current_path().string(), 0};
+  return {std::experimental::filesystem::current_path().string(), 0};
 }
 
 std::string Pwd::name() const { return "pwd"; }

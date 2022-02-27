@@ -23,18 +23,10 @@ void removeEmptyArgs(command::Arguments& args) {
 
 std::tuple<command::Command, command::Arguments>
 ParseCommandAndArguments::parse(const std::string& line) {
-  auto end_command_pos = line.find(" ");
-  if (end_command_pos == std::string::npos) {
-    end_command_pos = line.size();
-  }
-  auto commandStr = line.substr(0, end_command_pos);
-  if (commandStr == command::Exit().name()) {
-    return {std::make_shared<command::Exit>(), {}};
-  }
 
   command::Arguments args;
   std::string currArg;
-  for (size_t i = end_command_pos; i < line.size(); ++i) {
+  for (size_t i = 0; i < line.size(); ++i) {
     if (line[i] == ' ') {
       args.push_back(currArg);
       currArg = "";
@@ -56,6 +48,16 @@ ParseCommandAndArguments::parse(const std::string& line) {
   args.push_back(currArg);
   removeEmptyArgs(args);
 
+  std::string commandStr;
+
+  if (!args.empty()) {
+    commandStr = args[0];
+  }
+
+  if (commandStr == command::Exit().name()) {
+    return {std::make_shared<command::Exit>(), {}};
+  }
+
   if (commandStr == command::Echo().name()) {
     return {std::make_shared<command::Echo>(), std::move(args)};
   }
@@ -65,6 +67,10 @@ ParseCommandAndArguments::parse(const std::string& line) {
   if (commandStr == command::Pwd().name()) {
     return {std::make_shared<command::Pwd>(), std::move(args)};
   }
+  if (commandStr == command::Wc().name()) {
+    return {std::make_shared<command::Wc>(), std::move(args)};
+  }
+
   return {nullptr, {}};
 }
 

@@ -43,6 +43,12 @@ public:
   std::string name() const override;
 };
 
+class Wc : public CommandInterface {
+public:
+  CommandResponse run(const Arguments& args) override;
+  std::string name() const override;
+};
+
 using Command = std::shared_ptr<CommandInterface>;
 
 }  // namespace command
