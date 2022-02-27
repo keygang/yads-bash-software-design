@@ -28,9 +28,9 @@ TEST(Parser, runParserZeroCommand) {
 TEST(Parser, runParserZeroArgs) {
   Parser parser;
   {
-    std::string str = "echo ";
+    std::string str = "pwd";
     auto [command, args] = parser.parse(str);
-    EXPECT_EQ(command->name(), "echo");
+    EXPECT_EQ(command->name(), "pwd");
     command::Arguments right = {};
     EXPECT_EQ(args, right);
   }
@@ -72,6 +72,28 @@ TEST(Parser, runParserArgsQuotes) {
     auto [command, args]= parser.parse(str);
     EXPECT_EQ(command->name(), "wc");
     command::Arguments right = {"test_file1", "test file2"};
+    EXPECT_EQ(args, right);
+  }
+}
+
+TEST(Parser, runParserQuotes) {
+  Parser parser;
+  {
+    std::string str = R"(wc"test_file1")";
+    auto [command, args]= parser.parse(str);
+    EXPECT_EQ(command, nullptr);
+    command::Arguments right = {};
+    EXPECT_EQ(args, right);
+  }
+}
+
+TEST(Parser, runParserAssignment) {
+  Parser parser;
+  {
+    std::string str = "x=y";
+    auto [command, args]= parser.parse(str);
+    EXPECT_EQ(command->name(), "assignment");
+    command::Arguments right = {"x", "y"};
     EXPECT_EQ(args, right);
   }
 }

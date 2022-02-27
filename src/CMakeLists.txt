@@ -7,7 +7,10 @@ set(SOURCES
         ${PROJECT_SOURCE_DIR}/src/parsing/parser.cpp
         ${PROJECT_SOURCE_DIR}/src/parsing/parse_command_and_arguments.hpp
         ${PROJECT_SOURCE_DIR}/src/parsing/parse_command_and_arguments.cpp
-        ${PROJECT_SOURCE_DIR}/src/utils/utils.hpp)
+        ${PROJECT_SOURCE_DIR}/src/utils/utils.hpp
+        ${PROJECT_SOURCE_DIR}/src/utils/utils.cpp
+        ${PROJECT_SOURCE_DIR}/src/bash/bash.hpp
+        ${PROJECT_SOURCE_DIR}/src/bash/bash.cpp)
 
 add_library(bash-lib STATIC ${SOURCES})
 target_link_libraries(bash-lib PUBLIC ${CXX_FILESYSTEM_LIBRARIES})

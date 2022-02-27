@@ -44,10 +44,13 @@ CommandResponse Cat::run(const Arguments& args) {
 
 CommandResponse Wc::run(const Arguments& args) {
   std::string tot_data;
+  std::string data;
   int any_open = 1;
   for (const auto& arg : args) {
-    auto [is_open, data] = utils::count_file(arg);
+    auto [is_open, lineCount, wordCount, byteCount] = utils::count_lines_words_bytes(arg);
     if (is_open) {
+      data = std::to_string(lineCount) + " " + std::to_string(wordCount) +
+             " " + std::to_string(byteCount) + " " + arg;
       any_open = 0;
       if (!tot_data.empty()) {
         tot_data += "\n";
@@ -66,5 +69,11 @@ CommandResponse Pwd::run(const Arguments& args) {
 }
 
 std::string Pwd::name() const { return "pwd"; }
+
+CommandResponse Assignment::run(const Arguments& args) {
+  return {(args[0] + args[1]), 0};
+}
+
+std::string Assignment::name() const { return "assignment"; }
 }  // namespace command
 }  // namespace bash
