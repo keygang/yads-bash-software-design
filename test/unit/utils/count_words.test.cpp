@@ -2,8 +2,7 @@
 #include <gtest/gtest.h>
 
 #include <experimental/filesystem>
-
-#include "../../../src/utils/utils.hpp"
+#include <utils/utils.hpp>
 
 namespace bash {
 namespace utils {
