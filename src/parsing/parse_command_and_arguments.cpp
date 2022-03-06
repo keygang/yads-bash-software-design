@@ -16,7 +16,7 @@ void removeEmptyArgs(command::Arguments& args) {
   command::Arguments new_args;
   for (const auto& arg : args) {
     if (!arg.empty()) {
-      new_args.push_back(std::move(arg));
+      new_args.push_back(arg);
     }
   }
   args = new_args;
@@ -25,7 +25,9 @@ void removeEmptyArgs(command::Arguments& args) {
 }  // namespace
 
 std::tuple<command::Command, command::Arguments>
-ParseCommandAndArguments::parse(const std::string& line) {
+ParseCommandAndArguments::parse(std::string line) {
+  line = substitution(line);
+
   size_t first_not_space = 0;
   while (std::isspace(line[first_not_space]) != 0) {
     ++first_not_space;
@@ -107,6 +109,36 @@ ParseCommandAndArguments::parse(const std::string& line) {
 ParseCommandAndArguments::ParseCommandAndArguments(
     std::shared_ptr<Variables> variables)
     : variables_(std::move(variables)) {}
+
+std::string ParseCommandAndArguments::substitution(const std::string& line) {
+  std::string new_line;
+  for (size_t i = 0; i < line.size(); ++i) {
+    if (line[i] == '\'') {
+      new_line += line[i];
+      i += 1;
+      while (i < line.size() && line[i] != '\'') {
+        new_line += line[i];
+        i += 1;
+      }
+      new_line += line[i];
+      continue;
+    }
+    if (line[i] == '$') {
+      i += 1;
+      std::string var_name;
+      while (i < line.size() && std::isspace(line[i]) == 0 && line[i] != '\"' &&
+             line[i] != '$') {
+        var_name += line[i];
+        i += 1;
+      }
+      new_line += (*variables_)[var_name];
+      i -= 1;
+      continue;
+    }
+    new_line += line[i];
+  }
+  return new_line;
+}
 
 }  // namespace parsing
 }  // namespace bash

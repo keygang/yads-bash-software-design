@@ -24,8 +24,9 @@ public:
    * @param  line         строка которую будем парсить
    * @return              tuple из команды и ее аргументов
    */
-  std::tuple<command::Command, command::Arguments> parse(
-      const std::string& line);
+  std::tuple<command::Command, command::Arguments> parse(std::string line);
+
+  std::string substitution(const std::string& line);
 
 private:
   std::shared_ptr<Variables> variables_;
