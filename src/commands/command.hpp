@@ -9,6 +9,8 @@ namespace bash {
 namespace command {
 
 struct CommandResponse {
+  bool operator==(const CommandResponse& other) const;
+
   std::optional<std::string> output;
   std::optional<std::string> err;
   int status_code;

@@ -20,7 +20,7 @@ set(SOURCES
 add_library(bash-lib STATIC ${SOURCES})
 
 include(${PROJECT_SOURCE_DIR}/thirdparty/fmt.cmake)
-target_link_libraries(bash-lib PRIVATE fmt)
+target_link_libraries(bash-lib PUBLIC fmt)
 
 if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS_EQUAL 8.0)
     set(CXX_FILESYSTEM_LIBRARIES "stdc++fs")
