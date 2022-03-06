@@ -1,29 +1,8 @@
-#include <iostream>
-
-#include "parsing/parser.hpp"
-
-namespace bash {
-
-[[noreturn]] void run() {
-  parsing::Parser parser;
-
-  while (true) {
-    std::string line;
-    std::getline(std::cin, line);
-    auto [command, args] = parser.parse(line);
-    if (command == nullptr) {
-      std::cerr << "Unknown command\n";
-      continue;
-    }
-    auto resp = command->run(args);
-    std::cout << resp.output << "\n";
-  }
-}
-
-}  // namespace bash
+#include "bash/bash.hpp"
 
 int main() {
-  bash::run();
+  bash::Bash bash;
+  bash.run();
 
   return 0;
 }

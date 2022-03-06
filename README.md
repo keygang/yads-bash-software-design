@@ -1,5 +1,29 @@
 # yads-bash-software-design
 
+## Build
+
+Тестировалось только на MacOS и Ubuntu.
+
+```bash
+mkdir build
+cd build
+cmake ..
+make
+```
+
+## Запуск
+Из корневой директории
+```bash
+./build/src/bash
+```
+
+## Lint
+Используется `clang-format-13`. Для запуска автоформата запустите
+```bash
+./scripts/format.sh
+```
+
+
 ## Команды 
 - cat [FILE] — вывести на экран содержимое файла;
 - echo — вывести на экран свой аргумент (или аргументы);
