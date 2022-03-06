@@ -1,11 +1,15 @@
 #pragma once
 
+#include <unordered_set>
+
 #include "../bash/variables.hpp"
 #include "../commands/arguments.hpp"
 #include "../commands/command.hpp"
 
 namespace bash {
 namespace parsing {
+
+const std::unordered_set<char> kQuotes = {'\'', '\"'};
 
 class ParseCommandAndArguments {
 public:

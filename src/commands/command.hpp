@@ -9,63 +9,74 @@ namespace bash {
 namespace command {
 
 struct CommandResponse {
-  std::string output;
+  std::optional<std::string> output;
+  std::optional<std::string> err;
   int status_code;
 };
 
 class CommandInterface {
 public:
   virtual ~CommandInterface() = default;
-  virtual CommandResponse run(const Arguments& args) = 0;
+  virtual CommandResponse run(
+      const Arguments& user_args,
+      const std::optional<std::string>& pipe_arg = std::nullopt) = 0;
   virtual std::string name() const = 0;
 };
 
 class Echo : public CommandInterface {
 public:
-  CommandResponse run(const Arguments& args) override;
+  CommandResponse run(const Arguments& user_args,
+                      const std::optional<std::string>& pipe_arg) override;
   std::string name() const override;
 };
 
 class Cat : public CommandInterface {
 public:
-  CommandResponse run(const Arguments& args) override;
+  CommandResponse run(const Arguments& user_args,
+                      const std::optional<std::string>& pipe_arg) override;
   std::string name() const override;
 };
 
 class Exit : public CommandInterface {
 public:
-  CommandResponse run(const Arguments& args) override;
+  CommandResponse run(const Arguments& user_args,
+                      const std::optional<std::string>& pipe_arg) override;
   std::string name() const override;
 };
 
 class Pwd : public CommandInterface {
 public:
-  CommandResponse run(const Arguments& args) override;
+  CommandResponse run(const Arguments& user_args,
+                      const std::optional<std::string>& pipe_arg) override;
   std::string name() const override;
 };
 
 class Wc : public CommandInterface {
 public:
-  CommandResponse run(const Arguments& args) override;
+  CommandResponse run(const Arguments& user_args,
+                      const std::optional<std::string>& pipe_arg) override;
   std::string name() const override;
 };
 
 class Ls : public CommandInterface {
 public:
-  CommandResponse run(const Arguments& args) override;
+  CommandResponse run(const Arguments& user_args,
+                      const std::optional<std::string>& pipe_arg) override;
   std::string name() const override;
 };
 
 class Cd : public CommandInterface {
 public:
-  CommandResponse run(const Arguments& args) override;
+  CommandResponse run(const Arguments& user_args,
+                      const std::optional<std::string>& pipe_arg) override;
   std::string name() const override;
 };
 
 class ExternalCommand : public CommandInterface {
 public:
   explicit ExternalCommand(std::string executable_file);
-  CommandResponse run(const Arguments& args) override;
+  CommandResponse run(const Arguments& user_args,
+                      const std::optional<std::string>& pipe_arg) override;
   std::string name() const override;
 
 private:
@@ -75,7 +86,8 @@ private:
 class Assignment : public CommandInterface {
 public:
   explicit Assignment(std::shared_ptr<Variables> variables);
-  CommandResponse run(const Arguments& args) override;
+  CommandResponse run(const Arguments& user_args,
+                      const std::optional<std::string>& pipe_arg) override;
   std::string name() const override;
 
 private:

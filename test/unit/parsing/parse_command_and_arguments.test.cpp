@@ -1,7 +1,6 @@
-// TODO: fix inludes
-#include "../../../src/parsing/parser.hpp"
-
 #include <gtest/gtest.h>
+
+#include <parsing/parse_command_and_arguments.hpp>
 
 namespace bash {
 namespace parsing {
@@ -9,11 +8,11 @@ namespace parsing {
 struct ParserFixture : public testing::Test {
   void SetUp() override {
     vars = std::make_shared<Variables>();
-    parser = std::make_unique<Parser>(vars);
+    parser = std::make_unique<ParseCommandAndArguments>(vars);
   }
 
   std::shared_ptr<Variables> vars;
-  std::unique_ptr<ParserInterface> parser;
+  std::unique_ptr<ParseCommandAndArguments> parser;
 };
 
 TEST_F(ParserFixture, runParserWrongCommand) {
