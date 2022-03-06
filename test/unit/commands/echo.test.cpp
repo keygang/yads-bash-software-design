@@ -1,24 +1,35 @@
-// TODO: fix inludes
 #include <gtest/gtest.h>
 
-#include "../../../src/commands/command.hpp"
+#include <commands/command.hpp>
 
 namespace bash {
 namespace command {
 
-TEST(Echo, runEcho) {
-  Echo echo;
+struct EchoFixture : public testing::Test {
+  void SetUp() override { echo = std::make_unique<Echo>(); }
+
+  std::unique_ptr<CommandInterface> echo;
+};
+
+TEST_F(EchoFixture, runEcho) {
   {
-    auto resp = echo.run({"hello", "world"});
+    auto resp = echo->run({"hello", "world"});
     EXPECT_EQ(resp.output, "hello world");
     EXPECT_EQ(resp.status_code, 0);
   }
 }
 
-TEST(Echo, runEchoNoArgs) {
-  Echo echo;
+TEST_F(EchoFixture, runEchoWithPipeArg) {
   {
-    auto resp = echo.run({});
+    auto resp = echo->run({}, "hello world");
+    EXPECT_EQ(resp.output, "hello world");
+    EXPECT_EQ(resp.status_code, 0);
+  }
+}
+
+TEST_F(EchoFixture, runEchoNoArgs) {
+  {
+    auto resp = echo->run({});
     EXPECT_EQ(resp.output, "");
     EXPECT_EQ(resp.status_code, 0);
   }

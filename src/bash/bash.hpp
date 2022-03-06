@@ -1,10 +1,10 @@
 #pragma once
 
+#include <bash/variables.hpp>
+#include <execution/executor.hpp>
 #include <iostream>
+#include <parsing/parser.hpp>
 #include <unordered_map>
-
-#include "../parsing/parser.hpp"
-#include "variables.hpp"
 
 namespace bash {
 
@@ -24,6 +24,7 @@ public:
 private:
   std::shared_ptr<Variables> variables_;
   parsing::Parser parser_;
+  execution::Executor executor_;
 };
 
 }  // namespace bash
