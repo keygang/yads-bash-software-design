@@ -50,6 +50,18 @@ public:
   std::string name() const override;
 };
 
+class Ls : public CommandInterface {
+public:
+  CommandResponse run(const Arguments& args) override;
+  std::string name() const override;
+};
+
+class Cd : public CommandInterface {
+public:
+  CommandResponse run(const Arguments& args) override;
+  std::string name() const override;
+};
+
 class ExternalCommand : public CommandInterface {
 public:
   explicit ExternalCommand(std::string executable_file);
