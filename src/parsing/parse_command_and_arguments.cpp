@@ -89,6 +89,13 @@ ParseCommandAndArguments::parse(const std::string& line) {
   if (commandStr == command::Wc().name()) {
     return {std::make_shared<command::Wc>(), std::move(args)};
   }
+  if (commandStr == command::Ls().name()) {
+    return {std::make_shared<command::Ls>(), std::move(args)};
+  }
+  if (commandStr == command::Cd().name()) {
+    return {std::make_shared<command::Cd>(), std::move(args)};
+  }
+
   if (fs::exists(commandStr) && utils::is_file_executable(commandStr)) {
     return {std::make_shared<command::ExternalCommand>(commandStr),
             std::move(args)};
