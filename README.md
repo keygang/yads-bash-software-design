@@ -1,5 +1,8 @@
 # yads-bash-software-design
 
+![github actions](https://github.com/keygang/yads-bash-software-design/actions/workflows/github-actions.yml/badge.svg)
+[![codecov.io](http://codecov.io/github/keygang/yads-bash-software-design/coverage.svg?branch=development)](http://codecov.io/github/keygang/yads-bash-software-design?branch=development)
+
 ## Build
 
 Тестировалось только на MacOS и Ubuntu.
