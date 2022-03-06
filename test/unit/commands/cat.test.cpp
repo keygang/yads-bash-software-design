@@ -7,6 +7,12 @@
 namespace bash {
 namespace command {
 
+struct CatFixture : public testing::Test {
+  void SetUp() override { cat = std::make_unique<Cat>(); }
+
+  std::unique_ptr<CommandInterface> cat;
+};
+
 void create_files() {
   std::vector<std::string> filenames = {"test1", "test2", "test3"};
   std::vector<std::string> texts = {"Hello my fiend\nHello my fiend 2",
@@ -19,12 +25,11 @@ void create_files() {
   }
 }
 
-TEST(Cat, runCat) {
-  Cat cat;
+TEST_F(CatFixture, runCat) {
   create_files();
   {
     auto work_dir = fs::current_path().string();
-    auto resp = cat.run({"test1"});
+    auto resp = cat->run({"test1"});
     EXPECT_EQ(resp.output,
               "Hello my fiend\n"
               "Hello my fiend 2");
@@ -32,41 +37,28 @@ TEST(Cat, runCat) {
   }
 }
 
-TEST(Cat, runCatSpaceName) {
-  Cat cat;
+TEST_F(CatFixture, runCatSpaceName) {
   {
-    auto resp = cat.run({"test2"});
+    auto resp = cat->run({"test2"});
     EXPECT_EQ(resp.output, "Space in name");
     EXPECT_EQ(resp.status_code, 0);
   }
 }
 
-TEST(Cat, runCatMultipleArgs) {
-  Cat cat;
-  Pwd pwd;
+TEST_F(CatFixture, runCatNoArgs) {
   {
-    auto resp = cat.run({"test2", "test1"});
-    EXPECT_EQ(resp.output,
-              "Space in name\nHello my fiend\n"
-              "Hello my fiend 2");
-    EXPECT_EQ(resp.status_code, 0);
-  }
-}
-
-TEST(Cat, runCatNoArgs) {
-  Cat cat;
-  {
-    auto resp = cat.run({});
-    EXPECT_EQ(resp.output, "");
+    auto resp = cat->run({});
+    EXPECT_EQ(resp.output, std::nullopt);
+    EXPECT_TRUE(resp.err);
     EXPECT_EQ(resp.status_code, 1);
   }
 }
 
-TEST(Cat, runCatNoSuchFile) {
-  Cat cat;
+TEST_F(CatFixture, runCatNoSuchFile) {
   {
-    auto resp = cat.run({"Abracadabra"});
-    EXPECT_EQ(resp.output, "");
+    auto resp = cat->run({"Abracadabra"});
+    EXPECT_EQ(resp.output, std::nullopt);
+    EXPECT_TRUE(resp.err);
     EXPECT_EQ(resp.status_code, 1);
   }
 }

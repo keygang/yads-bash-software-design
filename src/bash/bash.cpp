@@ -17,13 +17,14 @@ void bash::Bash::run() {
     std::cout << hint();
     std::string line;
     std::getline(std::cin, line);
-    auto [command, args] = parser_.parse(line);
-    if (command == nullptr) {
-      std::cerr << "Unknown command\n";
-      continue;
+    auto pipeline = parser_.parse(line);
+    auto response = executor_.execute(pipeline);
+    if (response.err) {
+      std::cerr << *response.err << std::endl;
     }
-    auto resp = command->run(args);
-    std::cout << resp.output << "\n";
+    if (response.output) {
+      std::cout << *response.output << std::endl;
+    }
   }
 }
 
