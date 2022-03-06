@@ -23,3 +23,7 @@ endif()
 
 add_executable(bash ${PROJECT_SOURCE_DIR}/src/main.cpp)
 target_link_libraries(bash PUBLIC bash-lib)
+
+if(CODECOVERAGE)
+    target_link_libraries(bash-lib PUBLIC coverage_config)
+endif()
