@@ -9,10 +9,10 @@ project(bash)
 
 include(FetchContent)
 
+include_directories(src)
 add_subdirectory(src)
 
 if(BASH_TESTING)
-    message(Testing)
     enable_testing()
     add_subdirectory(test)
 endif()

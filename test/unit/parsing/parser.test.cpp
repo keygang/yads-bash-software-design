@@ -21,14 +21,16 @@ TEST_F(ParserFixture, runParserWrongCommand) {
     std::string str = "hello world";
     auto [command, args] = parser->parse(str);
     EXPECT_EQ(command, nullptr);
+    EXPECT_TRUE(args.empty());
   }
 }
 
 TEST_F(ParserFixture, runParserZeroCommand) {
   {
-    std::string str = "";
+    std::string str;
     auto [command, args] = parser->parse(str);
     EXPECT_EQ(command, nullptr);
+    EXPECT_TRUE(args.empty());
   }
 }
 
