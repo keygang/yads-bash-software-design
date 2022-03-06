@@ -1,10 +1,8 @@
-// TODO: fix inludes
 #include <gtest/gtest.h>
 
+#include <commands/command.hpp>
 #include <fstream>
-
-#include "../../../src/commands/command.hpp"
-#include "../../../src/utils/filesystem.hpp"
+#include <utils/filesystem.hpp>
 
 namespace bash {
 namespace command {
