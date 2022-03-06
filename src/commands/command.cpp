@@ -65,7 +65,7 @@ CommandResponse Wc::run(const Arguments& args,
   auto bytes = data.size();
   auto output = fmt::format("\t{}\t{}\t{}", lines, words, bytes);
 
-  return {output, {}, 1};
+  return {output, {}, 0};
 }
 
 std::string Wc::name() const { return "wc"; }
@@ -127,5 +127,9 @@ CommandResponse Cd::run(const Arguments& args,
   return {{}, {}, 0};
 }
 
+bool CommandResponse::operator==(const CommandResponse& other) const {
+  return std::make_tuple(output, err, status_code) ==
+         std::make_tuple(other.output, other.err, other.status_code);
+}
 }  // namespace command
 }  // namespace bash
