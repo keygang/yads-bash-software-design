@@ -2,7 +2,9 @@
 
 namespace bash {
 
-void bash::Bash::run(){
+Bash::Bash() : variables_(std::make_shared<Variables>()), parser_(variables_) {}
+
+void bash::Bash::run() {
   while (true) {
     std::string line;
     std::getline(std::cin, line);
@@ -15,6 +17,5 @@ void bash::Bash::run(){
     std::cout << resp.output << "\n";
   }
 }
-
 
 }  // namespace bash

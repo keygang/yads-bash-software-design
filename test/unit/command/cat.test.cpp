@@ -1,9 +1,10 @@
 // TODO: fix inludes
-#include "../../../src/commands/command.hpp"
-#include <experimental/filesystem>
-#include <fstream>
 #include <gtest/gtest.h>
 
+#include <fstream>
+
+#include "../../../src/commands/command.hpp"
+#include "../../../src/utils/filesystem.hpp"
 
 namespace bash {
 namespace command {
@@ -24,9 +25,10 @@ TEST(Cat, runCat) {
   Cat cat;
   create_files();
   {
-    auto work_dir = std::experimental::filesystem::current_path().string();
+    auto work_dir = fs::current_path().string();
     auto resp = cat.run({"test1"});
-    EXPECT_EQ(resp.output, "Hello my fiend\n"
+    EXPECT_EQ(resp.output,
+              "Hello my fiend\n"
               "Hello my fiend 2");
     EXPECT_EQ(resp.status_code, 0);
   }
@@ -46,7 +48,8 @@ TEST(Cat, runCatMultipleArgs) {
   Pwd pwd;
   {
     auto resp = cat.run({"test2", "test1"});
-    EXPECT_EQ(resp.output, "Space in name\nHello my fiend\n"
+    EXPECT_EQ(resp.output,
+              "Space in name\nHello my fiend\n"
               "Hello my fiend 2");
     EXPECT_EQ(resp.status_code, 0);
   }
@@ -69,9 +72,6 @@ TEST(Cat, runCatNoSuchFile) {
     EXPECT_EQ(resp.status_code, 1);
   }
 }
-
-
-
 
 }  // namespace command
 }  // namespace bash

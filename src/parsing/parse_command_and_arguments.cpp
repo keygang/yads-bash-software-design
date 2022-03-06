@@ -3,6 +3,9 @@
 #include <algorithm>
 #include <iostream>
 
+#include "../utils/filesystem.hpp"
+#include "../utils/utils.hpp"
+
 namespace bash {
 
 namespace parsing {
@@ -33,7 +36,6 @@ ParseCommandAndArguments::parse(const std::string& line) {
   std::string currArg;
 
   for (size_t i = first_not_space; i < line.size(); ++i) {
-
     if (line[i] == ' ' && commandStr.empty() && !currArg.empty()) {
       commandStr = currArg;
       currArg = "";
@@ -66,9 +68,9 @@ ParseCommandAndArguments::parse(const std::string& line) {
     auto equal_sign_pos = commandStr.find('=');
     if (equal_sign_pos != std::string::npos && line[first_not_space] != '\"' &&
         line[first_not_space] != '\'') {
-      return {std::make_shared<command::Assignment>(),
-          {commandStr.substr(0, equal_sign_pos),
-               commandStr.substr(equal_sign_pos + 1, commandStr.size())}};
+      auto var = commandStr.substr(0, equal_sign_pos);
+      auto value = commandStr.substr(equal_sign_pos + 1, commandStr.size());
+      return {std::make_shared<command::Assignment>(variables_), {var, value}};
     }
   }
 
@@ -87,9 +89,17 @@ ParseCommandAndArguments::parse(const std::string& line) {
   if (commandStr == command::Wc().name()) {
     return {std::make_shared<command::Wc>(), std::move(args)};
   }
+  if (fs::exists(commandStr) && utils::is_file_executable(commandStr)) {
+    return {std::make_shared<command::ExternalCommand>(commandStr),
+            std::move(args)};
+  }
 
   return {nullptr, {}};
 }
+
+ParseCommandAndArguments::ParseCommandAndArguments(
+    std::shared_ptr<Variables> variables)
+    : variables_(std::move(variables)) {}
 
 }  // namespace parsing
 }  // namespace bash

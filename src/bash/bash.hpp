@@ -1,17 +1,29 @@
 #pragma once
 
-#include <unordered_map>
 #include <iostream>
+#include <unordered_map>
+
 #include "../parsing/parser.hpp"
+#include "variables.hpp"
 
 namespace bash {
 
+/*
+ * Класс Bash.
+ */
 class Bash {
 public:
+  Bash();
+  /*
+   * Начинает выполнение bash'а.
+   * Закончить выполнени можно через команду exit, или завершить процесс
+   * программы.
+   */
   void run();
+
 private:
+  std::shared_ptr<Variables> variables_;
   parsing::Parser parser_;
-  std::unordered_map<std::string, std::string> variables_;
 };
 
 }  // namespace bash

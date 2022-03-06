@@ -1,7 +1,7 @@
 // TODO: fix inludes
-#include "../../../src/commands/command.hpp"
-
 #include <gtest/gtest.h>
+
+#include "../../../src/commands/command.hpp"
 
 namespace bash {
 namespace command {

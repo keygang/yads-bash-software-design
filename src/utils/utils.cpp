@@ -46,7 +46,8 @@ size_t count_words(const std::string& data) {
   return wordCount;
 }
 
-std::tuple<bool, size_t, size_t, size_t> count_lines_words_bytes(const std::string& file_name) {
+std::tuple<bool, size_t, size_t, size_t> count_lines_words_bytes(
+    const std::string& file_name) {
   auto [is_open, data] = utils::read_file(file_name);
   size_t wordCount = 0;
   size_t lineCount = 0;
@@ -57,6 +58,13 @@ std::tuple<bool, size_t, size_t, size_t> count_lines_words_bytes(const std::stri
     byteCount = data.size();
   }
   return {is_open, lineCount, wordCount, byteCount};
+}
+
+bool is_file_executable(const std::string& file_path) {
+  auto permissions = fs::status(file_path).permissions();
+  return static_cast<bool>(
+      permissions &
+      (fs::perms::group_exec | fs::perms::owner_exec | fs::perms::others_exec));
 }
 }  // namespace utils
 }  // namespace bash

@@ -1,14 +1,12 @@
 // TODO: fix inludes
-#include "../../../src/utils/utils.hpp"
-
 #include <gtest/gtest.h>
+
 #include <experimental/filesystem>
 
-
+#include "../../../src/utils/utils.hpp"
 
 namespace bash {
 namespace utils {
-
 
 TEST(CountLines, runSimpleCount) {
   {
