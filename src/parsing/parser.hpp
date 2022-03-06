@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../bash/variables.hpp"
-#include "../commands/arguments.hpp"
-#include "../commands/command.hpp"
-#include "parse_command_and_arguments.hpp"
+#include <bash/variables.hpp>
+#include <commands/arguments.hpp>
+#include <commands/command.hpp>
+#include <parsing/parse_command_and_arguments.hpp>
 
 namespace bash {
 namespace parsing {
