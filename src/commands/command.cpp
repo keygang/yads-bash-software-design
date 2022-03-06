@@ -91,5 +91,23 @@ CommandResponse ExternalCommand::run(const Arguments& args) {
   return {"", status_code};
 }
 
+std::string Ls::name() const { return "ls"; }
+
+CommandResponse Ls::run(const Arguments& args) {
+  std::ignore = args;
+  std::vector<std::string> files;
+  for (const auto& file : fs::directory_iterator(fs::current_path())) {
+    files.push_back(file.path().filename().string());
+  }
+  return {utils::join(files, "\n"), 0};
+}
+
+std::string Cd::name() const { return "cd"; }
+
+CommandResponse Cd::run(const Arguments& args) {
+  fs::current_path(args[0]);
+  return {"", 0};
+}
+
 }  // namespace command
 }  // namespace bash
