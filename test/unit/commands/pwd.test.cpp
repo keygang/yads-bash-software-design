@@ -18,21 +18,21 @@ TEST_F(PwdFixture, runPwd) {
     auto resp = pwd->run({"hello", "world"});
     auto right_dir = fs::current_path().string();
     EXPECT_EQ(resp.output, right_dir);
-    EXPECT_EQ(resp.status_code, 0);
+    EXPECT_EQ(resp.status_code, CommandStatusCode::Ok);
   }
 
   {
     auto resp = pwd->run({}, "hello world");
     auto right_dir = fs::current_path().string();
     EXPECT_EQ(resp.output, right_dir);
-    EXPECT_EQ(resp.status_code, 0);
+    EXPECT_EQ(resp.status_code, CommandStatusCode::Ok);
   }
 
   {
     auto resp = pwd->run({});
     auto right_dir = fs::current_path().string();
     EXPECT_EQ(resp.output, right_dir);
-    EXPECT_EQ(resp.status_code, 0);
+    EXPECT_EQ(resp.status_code, CommandStatusCode::Ok);
   }
 }
 

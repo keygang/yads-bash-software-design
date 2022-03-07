@@ -30,23 +30,28 @@ struct WcFixture : public testing::Test {
 TEST_F(WcFixture, runCorrectly) {
   {
     std::string data = "1";
-    runWc(data, {fmt::format("\t{}\t{}\t{}", 1, 1, 1), {}, 0});
+    runWc(data,
+          {fmt::format("\t{}\t{}\t{}", 1, 1, 1), {}, CommandStatusCode::Ok});
   }
   {
     std::string data = "123";
-    runWc(data, {fmt::format("\t{}\t{}\t{}", 1, 1, 3), {}, 0});
+    runWc(data,
+          {fmt::format("\t{}\t{}\t{}", 1, 1, 3), {}, CommandStatusCode::Ok});
   }
   {
     std::string data = "123 56";
-    runWc(data, {fmt::format("\t{}\t{}\t{}", 1, 2, 6), {}, 0});
+    runWc(data,
+          {fmt::format("\t{}\t{}\t{}", 1, 2, 6), {}, CommandStatusCode::Ok});
   }
   {
     std::string data = "123\n56";
-    runWc(data, {fmt::format("\t{}\t{}\t{}", 2, 2, 6), {}, 0});
+    runWc(data,
+          {fmt::format("\t{}\t{}\t{}", 2, 2, 6), {}, CommandStatusCode::Ok});
   }
   {
     std::string data = "123\n56\n";
-    runWc(data, {fmt::format("\t{}\t{}\t{}", 3, 2, 7), {}, 0});
+    runWc(data,
+          {fmt::format("\t{}\t{}\t{}", 3, 2, 7), {}, CommandStatusCode::Ok});
   }
 }
 

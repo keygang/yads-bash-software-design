@@ -8,12 +8,14 @@
 namespace bash {
 namespace command {
 
+enum class CommandStatusCode { Ok, ArgsFail, Unknown, Exit };
+
 struct CommandResponse {
   bool operator==(const CommandResponse& other) const;
 
   std::optional<std::string> output;
   std::optional<std::string> err;
-  int status_code;
+  CommandStatusCode status_code;
 };
 
 class CommandInterface {
