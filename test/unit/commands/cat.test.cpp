@@ -33,7 +33,7 @@ TEST_F(CatFixture, runCat) {
     EXPECT_EQ(resp.output,
               "Hello my fiend\n"
               "Hello my fiend 2");
-    EXPECT_EQ(resp.status_code, 0);
+    EXPECT_EQ(resp.status_code, CommandStatusCode::Ok);
   }
 }
 
@@ -41,7 +41,7 @@ TEST_F(CatFixture, runCatSpaceName) {
   {
     auto resp = cat->run({"test2"});
     EXPECT_EQ(resp.output, "Space in name");
-    EXPECT_EQ(resp.status_code, 0);
+    EXPECT_EQ(resp.status_code, CommandStatusCode::Ok);
   }
 }
 
@@ -50,7 +50,7 @@ TEST_F(CatFixture, runCatNoArgs) {
     auto resp = cat->run({});
     EXPECT_EQ(resp.output, std::nullopt);
     EXPECT_TRUE(resp.err);
-    EXPECT_EQ(resp.status_code, 1);
+    EXPECT_EQ(resp.status_code, CommandStatusCode::ArgsFail);
   }
 }
 
@@ -59,7 +59,7 @@ TEST_F(CatFixture, runCatNoSuchFile) {
     auto resp = cat->run({"Abracadabra"});
     EXPECT_EQ(resp.output, std::nullopt);
     EXPECT_TRUE(resp.err);
-    EXPECT_EQ(resp.status_code, 1);
+    EXPECT_EQ(resp.status_code, CommandStatusCode::ArgsFail);
   }
 }
 
