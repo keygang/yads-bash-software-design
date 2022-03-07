@@ -13,7 +13,7 @@ namespace bash {
  */
 class Bash {
 public:
-  Bash(std::istream& in);
+  Bash(std::istream& in, std::ostream& out, std::ostream& err);
   /*
    * Начинает выполнение bash'а.
    * Закончить выполнени можно через команду exit, или завершить процесс
@@ -23,6 +23,9 @@ public:
 
 private:
   std::istream& in_;
+  std::ostream& out_;
+  std::ostream& err_;
+
   std::shared_ptr<Variables> variables_;
   parsing::Parser parser_;
   execution::Executor executor_;
