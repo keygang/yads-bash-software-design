@@ -1,6 +1,6 @@
 #include "bash.hpp"
 
-#include "../utils/filesystem.hpp"
+#include <utils/filesystem.hpp>
 
 namespace bash {
 
@@ -10,25 +10,25 @@ std::string hint() { return fs::current_path().filename().string() + " % "; }
 
 }  // namespace
 
-Bash::Bash(std::istream& in, std::ostream& out, std::ostream& err)
-    : in_(in),
-      out_(out),
-      err_(err),
+Bash::Bash(Config config)
+    : config_(config),
       variables_(std::make_shared<Variables>()),
       parser_(variables_) {}
 
 void bash::Bash::run() {
   while (true) {
-    out_ << hint();
+    if (config_.show_hint) {
+      *config_.out_stream << hint();
+    }
     std::string line;
-    std::getline(in_, line);
+    std::getline(*config_.in_stream, line);
     auto pipeline = parser_.parse(line);
     auto response = executor_.execute(pipeline);
     if (response.err) {
-      err_ << *response.err << std::endl;
+      *config_.err_stream << *response.err << std::endl;
     }
     if (response.output) {
-      out_ << *response.output << std::endl;
+      *config_.out_stream << *response.output << std::endl;
     }
     if (response.status_code == command::CommandStatusCode::Exit) {
       break;
