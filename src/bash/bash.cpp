@@ -25,6 +25,9 @@ void bash::Bash::run() {
     if (response.output) {
       std::cout << *response.output << std::endl;
     }
+    if (response.status_code == command::CommandStatusCode::Exit) {
+      break;
+    }
   }
 }
 
