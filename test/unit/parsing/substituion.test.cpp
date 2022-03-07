@@ -22,6 +22,7 @@ TEST_F(Substituion, runCorrectly) {
     EXPECT_EQ(parser->substitution("echo $one"), "echo 1");
     EXPECT_EQ(parser->substitution("echo \"$one\""), "echo \"1\"");
     EXPECT_EQ(parser->substitution("echo \'$one\'"), "echo \'$one\'");
+    EXPECT_EQ(parser->substitution("echo $one'2'"), "echo 1'2'");
   }
   {
     (*vars)["a"] = "ec";
