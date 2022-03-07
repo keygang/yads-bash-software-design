@@ -1,5 +1,6 @@
 #pragma once
 
+#include <bash/config.hpp>
 #include <bash/variables.hpp>
 #include <execution/executor.hpp>
 #include <iostream>
@@ -13,7 +14,7 @@ namespace bash {
  */
 class Bash {
 public:
-  Bash(std::istream& in, std::ostream& out, std::ostream& err);
+  Bash(Config config);
   /*
    * Начинает выполнение bash'а.
    * Закончить выполнени можно через команду exit, или завершить процесс
@@ -22,9 +23,7 @@ public:
   void run();
 
 private:
-  std::istream& in_;
-  std::ostream& out_;
-  std::ostream& err_;
+  Config config_;
 
   std::shared_ptr<Variables> variables_;
   parsing::Parser parser_;

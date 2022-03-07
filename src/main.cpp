@@ -1,7 +1,8 @@
 #include "bash/bash.hpp"
 
 int main() {
-  bash::Bash bash(std::cin, std::cout, std::cerr);
+  bash::Config config;
+  bash::Bash bash(config);
   bash.run();
 
   return 0;

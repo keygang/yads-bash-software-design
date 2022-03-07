@@ -126,8 +126,8 @@ std::string ParseCommandAndArguments::substitution(const std::string& line) {
     if (line[i] == '$') {
       i += 1;
       std::string var_name;
-      while (i < line.size() && std::isspace(line[i]) == 0 && line[i] != '\"' &&
-             line[i] != '$') {
+      while (i < line.size() && std::isspace(line[i]) == 0 &&
+             kQuotes.count(line[i]) == 0 && line[i] != '$') {
         var_name += line[i];
         i += 1;
       }
