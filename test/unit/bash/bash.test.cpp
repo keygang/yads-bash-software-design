@@ -44,4 +44,28 @@ TEST_F(BashFixture, substitutionInEcho) {
   EXPECT_EQ(out_stream.str(), "12\n");
 }
 
+TEST_F(BashFixture, PipelileSimple1) {
+  in_stream << "echo 123 | wc\n";
+  in_stream << "exit";
+  bash->run();
+  std::string result;
+  EXPECT_EQ(out_stream.str(), "\t1\t1\t3\n");
+}
+
+TEST_F(BashFixture, PipelileSimple2) {
+  in_stream << "echo 123 | echo hi\n";
+  in_stream << "exit";
+  bash->run();
+  std::string result;
+  EXPECT_EQ(out_stream.str(), "123\n");
+}
+
+TEST_F(BashFixture, PipelileSimple3) {
+  in_stream << "echo 123 | wc | echo | wc\n";
+  in_stream << "exit";
+  bash->run();
+  std::string result;
+  EXPECT_EQ(out_stream.str(), "\t1\t3\t6\n");
+}
+
 }  // namespace bash

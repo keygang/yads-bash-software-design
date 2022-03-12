@@ -8,8 +8,14 @@
 namespace bash {
 namespace command {
 
+/*
+ * Поддерживается отдельный статус код Exit для тестирования команды exit
+ */
 enum class CommandStatusCode { Ok, ArgsFail, Unknown, Exit };
 
+/*
+ * То, что возвращает любая команда
+ */
 struct CommandResponse {
   bool operator==(const CommandResponse& other) const;
 
@@ -18,6 +24,11 @@ struct CommandResponse {
   CommandStatusCode status_code;
 };
 
+/*
+ * Интерфейс команды
+ * метод run отвечает за логику исполнения
+ * поле name - имя команды
+ */
 class CommandInterface {
 public:
   virtual ~CommandInterface() = default;
@@ -76,17 +87,28 @@ public:
   std::string name() const override;
 };
 
+/*
+ * Вызов внешней команды
+ */
 class ExternalCommand : public CommandInterface {
 public:
-  explicit ExternalCommand(std::string executable_file);
+  explicit ExternalCommand(std::string executable_file,
+                           std::shared_ptr<Variables> variables);
   CommandResponse run(const Arguments& user_args,
                       const std::optional<std::string>& pipe_arg) override;
+
+  std::string serialize();
+
   std::string name() const override;
 
 private:
   std::string executable_file_;
+  std::shared_ptr<Variables> variables_;
 };
 
+/*
+ * Оператор присваивания
+ */
 class Assignment : public CommandInterface {
 public:
   explicit Assignment(std::shared_ptr<Variables> variables);

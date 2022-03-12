@@ -11,6 +11,7 @@ namespace bash {
 
 /*
  * Класс Bash.
+ * Содержит Parser, Executor, указвтель на переменные окружения Variables
  */
 class Bash {
 public:
