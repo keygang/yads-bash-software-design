@@ -100,5 +100,15 @@ TEST_F(ParserFixture, runParserAssignment) {
   }
 }
 
+TEST_F(ParserFixture, runParserAssignmentNotEnough) {
+  {
+    std::string str = "x=";
+    auto [command, args] = parser->parse(str);
+    EXPECT_EQ(command->name(), "assignment");
+    command::Arguments right = {"x", ""};
+    EXPECT_EQ(args, right);
+  }
+}
+
 }  // namespace parsing
 }  // namespace bash

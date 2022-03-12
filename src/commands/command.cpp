@@ -87,6 +87,15 @@ std::string Pwd::name() const { return "pwd"; }
 CommandResponse Assignment::run(const Arguments& args,
                                 const std::optional<std::string>& pipe_arg) {
   std::ignore = pipe_arg;
+
+  if (args[0].empty()) {
+    return {std::nullopt, fmt::format("There is no var"),
+            CommandStatusCode::ArgsFail};
+  }
+  if (args[1].empty()) {
+    return {std::nullopt, fmt::format("There is no value for {}", args[0]),
+            CommandStatusCode::ArgsFail};
+  }
   variables_->operator[](args[0]) = args[1];
   return {{}, std::nullopt, CommandStatusCode::Ok};
 }
@@ -98,8 +107,10 @@ Assignment::Assignment(std::shared_ptr<Variables> variables)
 
 std::string ExternalCommand::name() const { return executable_file_; }
 
-ExternalCommand::ExternalCommand(std::string executable_file)
-    : executable_file_(std::move(executable_file)) {}
+ExternalCommand::ExternalCommand(std::string executable_file,
+                                 std::shared_ptr<Variables> variables)
+    : executable_file_(std::move(executable_file)),
+      variables_(std::move(variables)) {}
 
 CommandResponse ExternalCommand::run(
     const Arguments& args, const std::optional<std::string>& pipe_arg) {
@@ -110,6 +121,17 @@ CommandResponse ExternalCommand::run(
       {},
       {},
       status_code == 0 ? CommandStatusCode::Ok : CommandStatusCode::Unknown};
+}
+
+std::string ExternalCommand::serialize() {
+  std::string ans;
+  for (auto& [key, value] : *variables_) {
+    if (!ans.empty()) {
+      ans += " ";
+    }
+    ans += fmt::format("{}={}", key, value);
+  }
+  return ans;
 }
 
 std::string Ls::name() const { return "ls"; }

@@ -19,7 +19,7 @@ public:
   explicit ParseCommandAndArguments(std::shared_ptr<Variables> variables);
   /*
    * Парсит строчку в которой только ОДНА команда, и возращает команду с
-   * аргументами (т. к. пока что фаза 1)
+   * аргументами
    *
    * @param  line         строка которую будем парсить
    * @return              tuple из команды и ее аргументов
