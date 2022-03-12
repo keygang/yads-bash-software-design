@@ -32,7 +32,7 @@ TEST(CountLines, runSimpleCount) {
   {
     std::string text;
     auto resp = count_lines(text);
-    EXPECT_EQ(resp, 0);
+    EXPECT_EQ(resp, 1);
   }
 }
 
