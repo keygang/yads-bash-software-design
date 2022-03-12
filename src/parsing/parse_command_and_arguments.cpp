@@ -29,7 +29,8 @@ ParseCommandAndArguments::parse(std::string line) {
   line = substitution(line);
 
   size_t first_not_space = 0;
-  while (std::isspace(line[first_not_space]) != 0) {
+  while (std::isspace(line[first_not_space]) != 0 &&
+         first_not_space < line.size()) {
     ++first_not_space;
   }
 
@@ -99,7 +100,7 @@ ParseCommandAndArguments::parse(std::string line) {
   }
 
   if (fs::exists(commandStr) && utils::is_file_executable(commandStr)) {
-    return {std::make_shared<command::ExternalCommand>(commandStr),
+    return {std::make_shared<command::ExternalCommand>(commandStr, variables_),
             std::move(args)};
   }
 

@@ -6,6 +6,7 @@ namespace execution {
 
 class ExecutorInterface {
 public:
+  virtual ~ExecutorInterface() = default;
   virtual command::CommandResponse execute(
       const command::Pipeline& pipeline) = 0;
 };
