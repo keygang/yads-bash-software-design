@@ -12,7 +12,7 @@ command::CommandResponse Executor::execute(const command::Pipeline& pipeline) {
       if (response.status_code == command::CommandStatusCode::Exit) {
         return response;
       }
-   } else {
+    } else {
       response = command::CommandResponse{
           .output = std::nullopt,
           .err = "Unknown command",

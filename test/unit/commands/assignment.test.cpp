@@ -9,7 +9,9 @@ namespace command {
 
 struct AssignmentFixture : public testing::Test {
   std::shared_ptr<Variables> variables = std::make_shared<Variables>();
-  void SetUp() override { assignment = std::make_unique<Assignment>(variables); }
+  void SetUp() override {
+    assignment = std::make_unique<Assignment>(variables);
+  }
 
   std::unique_ptr<CommandInterface> assignment;
 };
