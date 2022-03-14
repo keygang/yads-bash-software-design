@@ -15,15 +15,6 @@ std::tuple<bool, std::string> read_file(const std::string& file_name) {
 }
 
 size_t count_lines(const std::string& data) {
-//  size_t lineCount = 0;
-//  for (char letter : data) {
-//    if (letter == '\n') {
-//      ++lineCount;
-//    }
-//  }
-//  if (!data.empty()) {
-//    ++lineCount;
-//  }
   return std::count(data.begin(), data.end(), '\n') + 1;
 }
 

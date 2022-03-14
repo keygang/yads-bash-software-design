@@ -27,5 +27,6 @@ add_subdirectory(src)
 
 if(BASH_TESTING)
     enable_testing()
+    include_directories(test)
     add_subdirectory(test)
 endif()

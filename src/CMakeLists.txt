@@ -16,7 +16,8 @@ set(SOURCES
         ${PROJECT_SOURCE_DIR}/src/bash/bash.hpp
         ${PROJECT_SOURCE_DIR}/src/bash/bash.cpp
         ${PROJECT_SOURCE_DIR}/src/bash/config.hpp
-        ${PROJECT_SOURCE_DIR}/src/bash/variables.hpp)
+        ${PROJECT_SOURCE_DIR}/src/bash/variables.hpp
+        ${PROJECT_SOURCE_DIR}/src/bash/variables.cpp)
 
 add_library(bash-lib STATIC ${SOURCES})
 
