@@ -5,7 +5,7 @@
 namespace bash {
 namespace command {
 
-TEST(Exit, runCurrectly) {
+TEST(Exit, runCorrectly) {
   Exit exit;
   {
     auto response = exit.run({}, {});

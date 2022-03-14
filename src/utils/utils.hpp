@@ -1,10 +1,10 @@
 #pragma once
 
+#include <algorithm>
 #include <fstream>
 #include <string>
 #include <tuple>
 #include <vector>
-#include <algorithm>
 
 #include "filesystem.hpp"
 

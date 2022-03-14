@@ -24,7 +24,8 @@ public:
    */
   explicit Parser(std::shared_ptr<Variables> variables);
   /*
-   * Парсит строчку, и возращает pipeline (одна команда это pipeline из одной команды)
+   * Парсит строчку, и возращает pipeline (одна команда это pipeline из одной
+   * команды)
    *
    * Внутри метода сначала происходит split команд,
    * для каждой команды вызывается ParseCommandAndArguments::parse
