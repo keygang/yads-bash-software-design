@@ -26,12 +26,22 @@ struct CommandResponse {
 
 /*
  * Интерфейс команды
- * метод run отвечает за логику исполнения
  * поле name - имя команды
  */
 class CommandInterface {
 public:
   virtual ~CommandInterface() = default;
+
+  /*
+   * Исполняет команду
+   *
+   * @param  user_args    вектрор аргументов
+   * @param  pipe_arg     при наличии нескольких команд в пайплайне, output
+   *                      предыдущей команды является pipe_arg выполняемой команды
+   *
+   * @return              CommandResponse команды
+   */
+
   virtual CommandResponse run(
       const Arguments& user_args,
       const std::optional<std::string>& pipe_arg = std::nullopt) = 0;
@@ -40,6 +50,9 @@ public:
 
 class Echo : public CommandInterface {
 public:
+  /*
+   * Выводит аргументы в output, при наличии pipe_args, user_args игнорируются
+   */
   CommandResponse run(const Arguments& user_args,
                       const std::optional<std::string>& pipe_arg) override;
   std::string name() const override;
@@ -47,6 +60,10 @@ public:
 
 class Cat : public CommandInterface {
 public:
+  /*
+   * Выводит в output содержимое файла, при наличии pipe_args, user_args игнорируются,
+   * название файла определяется первым аргументом, остальные аргументы игнорируются
+   */
   CommandResponse run(const Arguments& user_args,
                       const std::optional<std::string>& pipe_arg) override;
   std::string name() const override;
@@ -54,6 +71,9 @@ public:
 
 class Exit : public CommandInterface {
 public:
+  /*
+   * Завершает Bash
+   */
   CommandResponse run(const Arguments& user_args,
                       const std::optional<std::string>& pipe_arg) override;
   std::string name() const override;
@@ -61,6 +81,9 @@ public:
 
 class Pwd : public CommandInterface {
 public:
+  /*
+   * Выводит в output текущую директорию, аргументы игнорируются
+   */
   CommandResponse run(const Arguments& user_args,
                       const std::optional<std::string>& pipe_arg) override;
   std::string name() const override;
@@ -68,6 +91,17 @@ public:
 
 class Wc : public CommandInterface {
 public:
+  /*
+   * Выводит в output количество строк, слов и байт в введенном тексте,
+   * или в файле, если он указан
+   *
+   * если pipe_arg пуст, название файла определяется первым аргументом (user_args[0]),
+   * остальные аргументы игнорируются
+   *
+   * если pipe_arg не пуст, выводится количество строк, слов и байт в pipe_arg
+   *
+   * пустая строка учитывается при подсчете строк
+   */
   CommandResponse run(const Arguments& user_args,
                       const std::optional<std::string>& pipe_arg) override;
   std::string name() const override;
@@ -75,6 +109,9 @@ public:
 
 class Ls : public CommandInterface {
 public:
+  /*
+   * Выводит в output содержимое текущей директории
+   */
   CommandResponse run(const Arguments& user_args,
                       const std::optional<std::string>& pipe_arg) override;
   std::string name() const override;
@@ -82,6 +119,10 @@ public:
 
 class Cd : public CommandInterface {
 public:
+  /*
+   * Осуществляет переход в другую директорию, определяемую user_args[0],
+   * остальные аргументы игнорируются, pipe_arg игнорируется
+   */
   CommandResponse run(const Arguments& user_args,
                       const std::optional<std::string>& pipe_arg) override;
   std::string name() const override;
