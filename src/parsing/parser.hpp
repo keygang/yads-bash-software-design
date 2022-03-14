@@ -24,10 +24,13 @@ public:
    */
   explicit Parser(std::shared_ptr<Variables> variables);
   /*
-   * Парсит строчку, и возращает команду с аргументами (т. к. пока что фаза 1)
+   * Парсит строчку, и возращает pipeline (одна команда это pipeline из одной команды)
+   *
+   * Внутри метода сначала происходит split команд,
+   * для каждой команды вызывается ParseCommandAndArguments::parse
    *
    * @param  line         строка которую будем парсить
-   * @return              tuple из команды и ее аргументов
+   * @return              вектор tuple из команды и ее аргументов
    */
   command::Pipeline parse(const std::string& line) override;
 
