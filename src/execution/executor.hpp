@@ -13,6 +13,15 @@ public:
 
 class Executor : public ExecutorInterface {
 public:
+  /*
+   * Исполняет pipeline
+   *
+   * В цикле исполняет команды, передает значение output предыдущей команды
+   * в качестве аргументов для следующей команды
+   *
+   * @param  pipeline     вектор tuple из команды и ее аргументов
+   * @return              CommandResponse команды, выполненной последней
+   */
   command::CommandResponse execute(const command::Pipeline& pipeline) override;
 };
 
