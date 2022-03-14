@@ -8,7 +8,8 @@ namespace bash {
 /*
  * Переменные окружения.
  *
- * Введя в bash команду VAR=VALUE без кавычек, мы присваиваем переменное VAR значение VALUE
+ * Введя в bash команду VAR=VALUE без кавычек, мы присваиваем переменное
+ * VAR значение VALUE
  */
 using Variables = std::unordered_map<std::string, std::string>;
 
