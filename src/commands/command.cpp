@@ -2,11 +2,11 @@
 
 #include <fmt/format.h>
 
+#include <array>
 #include <tuple>
 #include <utility>
-
-#include "../utils/filesystem.hpp"
-#include "../utils/utils.hpp"
+#include <utils/filesystem.hpp>
+#include <utils/utils.hpp>
 
 namespace bash {
 namespace command {
@@ -115,23 +115,25 @@ ExternalCommand::ExternalCommand(std::string executable_file,
 CommandResponse ExternalCommand::run(
     const Arguments& args, const std::optional<std::string>& pipe_arg) {
   std::ignore = pipe_arg;
-  auto command = fmt::format("{} {}", executable_file_, fmt::join(args, " "));
-  auto status_code = system(command.c_str());
+  auto arg = pipe_arg ? Arguments{*pipe_arg} : args;
+  auto command = fmt::format("{} {} {}", variables_->serialize(),
+                             executable_file_, fmt::join(arg, " "));
+  std::array<char, 128> buffer{};
+  std::string result;
+  auto* pipe = popen(command.c_str(), "r");
+  if (pipe == nullptr) {
+    return {{},
+            fmt::format("Can't execute command: {}", command),
+            CommandStatusCode::Unknown};
+  }
+  while (fgets(buffer.data(), buffer.size(), pipe) != nullptr) {
+    result += buffer.data();
+  }
+  auto status_code = pclose(pipe);
   return {
-      {},
+      std::move(result),
       {},
       status_code == 0 ? CommandStatusCode::Ok : CommandStatusCode::Unknown};
-}
-
-std::string ExternalCommand::serialize() {
-  std::string ans;
-  for (auto& [key, value] : *variables_) {
-    if (!ans.empty()) {
-      ans += " ";
-    }
-    ans += fmt::format("{}={}", key, value);
-  }
-  return ans;
 }
 
 std::string Ls::name() const { return "ls"; }

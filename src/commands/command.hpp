@@ -37,7 +37,8 @@ public:
    *
    * @param  user_args    вектрор аргументов
    * @param  pipe_arg     при наличии нескольких команд в пайплайне, output
-   *                      предыдущей команды является pipe_arg выполняемой команды
+   *                      предыдущей команды является pipe_arg выполняемой
+   * команды
    *
    * @return              CommandResponse команды
    */
@@ -61,8 +62,9 @@ public:
 class Cat : public CommandInterface {
 public:
   /*
-   * Выводит в output содержимое файла, при наличии pipe_args, user_args игнорируются,
-   * название файла определяется первым аргументом, остальные аргументы игнорируются
+   * Выводит в output содержимое файла, при наличии pipe_args, user_args
+   * игнорируются, название файла определяется первым аргументом, остальные
+   * аргументы игнорируются
    */
   CommandResponse run(const Arguments& user_args,
                       const std::optional<std::string>& pipe_arg) override;
@@ -95,8 +97,8 @@ public:
    * Выводит в output количество строк, слов и байт в введенном тексте,
    * или в файле, если он указан
    *
-   * если pipe_arg пуст, название файла определяется первым аргументом (user_args[0]),
-   * остальные аргументы игнорируются
+   * если pipe_arg пуст, название файла определяется первым аргументом
+   * (user_args[0]), остальные аргументы игнорируются
    *
    * если pipe_arg не пуст, выводится количество строк, слов и байт в pipe_arg
    *
@@ -137,8 +139,6 @@ public:
                            std::shared_ptr<Variables> variables);
   CommandResponse run(const Arguments& user_args,
                       const std::optional<std::string>& pipe_arg) override;
-
-  std::string serialize();
 
   std::string name() const override;
 

@@ -2,43 +2,30 @@
 #include <gtest/gtest.h>
 
 #include <commands/command.hpp>
-#include <fstream>
+#include <iostream>
+#include <unit/fixtures/utils.hpp>
 
 namespace bash {
 namespace command {
 
-std::string createFileExe(const std::string& data, std::string file_name = "") {
-  if (file_name.empty()) {
-    file_name = "test.sh";
-  }
-  std::ofstream file(file_name);
-  file << data;
-  file.close();
-  return file_name;
-}
-
 struct ExternalFixture : public testing::Test {
-  std::shared_ptr<Variables> variables = std::make_shared<Variables>();
-  void runExternal(const std::string& data, const CommandResponse& expected) {
-    createFileExe(data, "external.sh");
-    external = std::make_unique<ExternalCommand>("/external.sh", variables);
-    auto resp = external->run({}, {});
-    EXPECT_EQ(external->run({}, data), expected);
-    //EXPECT_EQ(external->run({createFileExe(data)}), expected);
+  void SetUp() override { variables = std::make_shared<Variables>(); }
+
+  void runExternal(const std::string& file_name,
+                   const CommandResponse& expected) const {
+    auto external = ExternalCommand(file_name, variables);
+    auto response = external.run({}, {});
+    EXPECT_EQ(response, expected);
   }
 
-  std::unique_ptr<CommandInterface> external;
-
+  std::shared_ptr<Variables> variables;
 };
 
-TEST_F(ExternalFixture, runCorrectly) {
+TEST_F(ExternalFixture, runEchoCorrectly) {
   {
-    std::string data = "#!/bin/bash\n"
-        "echo \"Hello World\"";
-    runExternal(data,
-          {fmt::format("\t{}\t{}\t{}", 1, 1, 1), {}, CommandStatusCode::Ok});
+    std::string file_name = fmt::format("{}", test::getFilePath("echo.sh"));
+    runExternal(file_name, {"Hello World\n", {}, CommandStatusCode::Ok});
   }
-
 }
 
 }  // namespace command
