@@ -1,0 +1,61 @@
+name: GitHub Actions
+on: [ push ]
+jobs:
+  lint:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        path:
+          - 'src'
+          - 'test'
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Run clang-format
+        uses: jidicula/clang-format-action@v4.5.0
+        with:
+          clang-format-version: '13'
+          check-path: ${{ matrix.path }}
+
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+  linux-tests-gcc-10:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Build project
+        run: mkdir build && cd build && cmake .. && make
+        env:
+          CC: gcc-10
+          CXX: g++-10
+      - name: Run tests
+        run: ./build/test/unit_tests
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+
+  linux-tests-gcc-7:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Build project
+        run: mkdir build && cd build && cmake .. && make
+        env:
+          CC: gcc-7
+          CXX: g++-7
+      - name: Run tests
+        run: ./build/test/unit_tests
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+
+  macos-tests:
+    runs-on: macos-10.15
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: Build project
+        run: mkdir build && cd build && cmake .. && make
+        env:
+          CC: clang
+          CXX: clang++
+      - name: Run tests
+        run: ./build/test/unit_tests
+      - run: echo "🍏 This job's status is ${{ job.status }}."
